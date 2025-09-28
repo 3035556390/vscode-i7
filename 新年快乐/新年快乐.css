@@ -1,0 +1,97 @@
+* {
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+}
+
+body {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #434343;
+
+
+}
+
+
+.zzy {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    transform-style: preserve-3d;
+    transform: rotateX(10deg) rotateY(30deg);
+}
+
+.zzy .text {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background-color: transparent;
+    transform-style: preserve-3d;
+    transition: 2.5s ease-in-out;
+    transition-delay: calc(0.25s*var(--i));
+
+}
+
+.zzy .text span {
+    position: absolute;
+    top: 0%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    color: white;
+    font-size: 5em;
+    background: linear-gradient(#434343, #535353);
+    transform: rotateX(calc(90deg*var(--i))) translateZ(50px);
+}
+
+.zzy .text::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: #434343;
+    transform: rotateY(90deg) translateZ(-49px);
+}
+
+.zzy .text:nth-child(4) span {
+    background: linear-gradient(#29c040, #32ed4e)
+}
+
+.zzy .text:nth-child(4)::before {
+    background: linear-gradient(#29c040, #32ed4e)
+}
+
+.zzy .text:nth-child(4) {
+
+    animation: wly 5s cubic-bezier(0.71, -0.05, 0.39, 1.01) infinite;
+}
+
+@keyframes wly {
+    0% {
+        transform: rotateX(0deg);
+    }
+
+    100% {
+        transform: rotateX(-272deg);
+    }
+
+}
+
+h2 {
+    font-size: 2em;
+    display: block;
+    transform: rotateX(10deg) rotateY(30deg);
+    position: absolute;
+    width: auto;
+    height: auto;
+    top: 80%;
+    color: gold;
+    -webkit-text-stroke: 0.1vw rgb(175, 21, 226);
+
+}

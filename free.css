@@ -1,0 +1,171 @@
+* {
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.container {
+
+    position: relative;
+    /* width: 600px;
+    height: 700px; */
+    padding: 5px 20px;
+    border: 5px solid #9be3f4;
+    /* margin: 10px; */
+
+}
+
+.title {
+
+    display: flex;
+
+    position: relative;
+
+    width: 550px;
+    height: 120px;
+    color: #7fcce0;
+    /* background-color: #10e437; */
+}
+
+h1 {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: myInformation 5s ease infinite reverse;
+}
+
+@keyframes myInformation {
+    0% {
+        background-color: rgb(111, 72, 148);
+    }
+
+    50% {
+        background-color: rgb(28, 167, 139);
+    }
+
+    100% {
+        background-color: rgb(179, 189, 26);
+    }
+
+}
+
+.信息图标小人 {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #9be3f4;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+
+}
+
+.信息图标小人:nth-child(2):hover {
+    content: url("个人简介3.png");
+
+}
+
+.信息图标小人:nth-child(3):hover {
+    content: url("星球.png");
+
+}
+
+.信息图标小人:nth-child(4):active {
+    content: url("五角星1.png");
+
+}
+
+
+
+hr {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    border: 20px;
+
+    background: linear-gradient(to right, rgb(218, 235, 250), rgb(148, 149, 235));
+    ;
+}
+
+hr:hover {
+    background: linear-gradient(to left, rgb(218, 235, 250), rgb(148, 149, 235));
+    ;
+}
+
+
+
+span {
+    background: linear-gradient(to right, rgb(81, 157, 224), rgb(148, 149, 235));
+    ;
+    color: white;
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    left: 0px;
+    top: -20px
+}
+
+span:hover {
+    background: linear-gradient(to left, rgb(81, 157, 224), rgb(148, 149, 235));
+    ;
+}
+
+#zzy {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 550px;
+    height: 150px;
+    border: 1px solid #1159be;
+
+    /* overflow: hidden; */
+}
+
+.个人信息 img {
+    width: 95px;
+    height: 110px;
+    border: 1px solid #bbd5db;
+    position: relative;
+    right: 5px;
+    top: -10px;
+
+}
+
+
+.个人信息>ul>li {
+    display: inline-block;
+    width: 190px;
+    height: 30px;
+    margin: 0px auto;
+}
+
+.个人信息 {
+
+    align-items: left;
+    justify-content: center;
+}
+
+.个人技能 ul {
+
+    list-style-type: disc;
+    position: relative;
+
+    left: -58px;
+
+}
+
+.自我评价 p {
+    margin-right: auto;
+    position: relative;
+    top: -30px;
+
+}

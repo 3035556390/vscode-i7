@@ -1,0 +1,82 @@
+    body {
+        margin: 0%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at center, mediumpurple, #000);
+    }
+
+    .heart {
+        width: 280px;
+        height: 220px;
+        display: flex;
+
+        justify-content: space-between;
+        /*均匀分布元素*/
+    }
+
+    .heart span {
+        --c: rgb(221, 160, 175);
+        --h: 50%;
+        --t: 25%;
+        background-color: var(--c);
+        width: 20px;
+        border-radius: 10px;
+        position: relative;
+        height: var(--h);
+        top: var(--t);
+        animation: beating 3s infinite;
+    }
+
+    .heart span:nth-child(1),
+    .heart span:nth-child(9) {
+        --c: lightcoral;
+        --h: 60px;
+        --t: 44px;
+
+    }
+
+    .heart span:nth-child(2),
+    .heart span:nth-child(8) {
+        --c: lightskyblue;
+        --h: 120px;
+        --t: 12px;
+
+    }
+
+    .heart span:nth-child(3),
+    .heart span:nth-child(7) {
+        --c: lightgreen;
+        --h: 160px;
+        --t: 0;
+    }
+
+    .heart span:nth-child(4),
+    .heart span:nth-child(6) {
+        --c: gold;
+        --h: 180px;
+        --t: 16px;
+    }
+
+    .heart span:nth-child(5) {
+        --c: aqua;
+        --h: 188px;
+        --t: 32px;
+    }
+
+    @keyframes beating {
+        0% {
+            height: var(--h);
+            top: var(--t);
+            background-color: var(--c);
+            filter: blur(0);
+        }
+
+        50% {
+            height: 50%;
+            top: 25%;
+            background-color: plum;
+            filter: blur(5px);
+        }
+    }
