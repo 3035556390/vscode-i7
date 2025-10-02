@@ -7,57 +7,105 @@
     <title>Document</title>
     <link rel="stylesheet" href="zzy.css">
     <!-- <script src="zzy.js"></script> -->
-</head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            /* 隐藏滚动条 */
+        }
 
+        .section {
+            height: 100vh;
+            /* 每一屏占满视口高度 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .section:nth-child(1) {
+            background: #f0f0f0;
+        }
+
+        .section:nth-child(2) {
+            background: #4BBFC3;
+        }
+
+        .section:nth-child(3) {
+            background: #7BAABE;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="menu">
-        <ul>
-            <li><a href="">首页</a></li>
-
-            <li><a href="">jquery特效</a>
-                <div class="submenu">
-                    <ul>
-                        <li>特效</li>
-                        <li>特效</li>
-                        <li>特效</li>
-                        <li>特效</li>
-                    </ul>
-                </div>
-
-            </li>
-
-            <li><a href="">jquery特效</a>
-                <div class="submenu">
-                    <ul>
-                        <li>特效</li>
-                        <li>特效</li>
-                        <li>特效</li>
-
-                    </ul>
-                </div>
-
-            </li>
-            <li><a href="">jquery特效</a>
-                <!-- <div class="submenu">
-                    <ul>
-                        <li>特效</li>
-                        <li>特效</li>
-                        <li>特效</li>
-                        <li>特效</li>
-                    </ul>
-                </div> -->
-
-            </li>
-
-
-        </ul>
-
-
-
-
+    <div class="container">
+        <div class="section">第一屏</div>
+        <div class="section">第二屏</div>
+        <div class="section">第三屏</div>
     </div>
+
+    <script>
+        const sections = document.querySelectorAll('.section');
+        const container = document.querySelector('.container');
+        let currentIndex = 0;
+        const totalSections = sections.length;
+        let isScrolling = false; // 防止快速连续滚动
+
+        // 监听鼠标滚轮事件
+        window.addEventListener('wheel', handleScroll);
+
+        // 监听键盘上下键
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown') nextSection();
+            if (e.key === 'ArrowUp') prevSection();
+        });
+
+        function handleScroll(e) {
+            if (isScrolling) return;
+            isScrolling = true;
+
+            // 滚轮向下滚动（正值）或向上滚动（负值）
+            if (e.deltaY > 0) {
+                nextSection();
+            } else {
+                prevSection();
+            }
+
+            // 延迟后允许再次滚动（防止快速连续滚动）
+            setTimeout(() => { isScrolling = false; }, 800);
+        }
+
+        function nextSection() {
+            if (currentIndex < totalSections - 1) {
+                currentIndex++;
+                scrollToCurrent();
+            }
+        }
+
+        function prevSection() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                scrollToCurrent();
+            }
+        }
+
+        function scrollToCurrent() {
+            // 计算滚动距离（当前屏的索引 × 视口高度）
+            const scrollTop = currentIndex * window.innerHeight;
+
+            // 平滑滚动到目标位置
+            container.style.transform = `translateY(-${scrollTop}px)`;
+            container.style.transition = 'transform 0.8s ease';
+        }
+    </script>
+</body>
+
 
 </html>
