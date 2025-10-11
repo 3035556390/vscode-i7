@@ -69,7 +69,7 @@ app.post('/api/login', (req, res) => {
 });
 
 // 启动服务器，监听3000端口
-const port = 3000;
+const port = 8081;
 app.listen(port, () => {
     console.log(`服务器运行在 http://localhost:${port}`);
 });

@@ -1,75 +1,41 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const mysql = require('mysql2');
-app.use(cors());
+// 引入 Node.js 内置的 http 模块
+const http = require('http');
 
-// 解析JSON格式的请求体（必须添加，否则无法获取前端发送的JSON数据）
-app.use(express.json());
+// 创建服务器
+const server = http.createServer((req, res) => {
+    // 设置响应头：状态码 200（成功），内容类型为 HTML
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
 
-// 模拟数据库中的用户（实际项目中会连接真实数据库）
-const mockUsers = [
-    { id: 1, username: 'admin', password: '123456' }, // 实际项目中密码会加密存储
-    { id: 2, username: 'user1', password: 'abc123' }
-];
+    // 构建响应内容，包含请求信息
+    const responseContent = `
+    <h1>本地服务器已接收到请求</h1>
+    <p>请求方法: ${req.method}</p>
+    <p>请求路径: ${req.url}</p>
+    <p>请求头: ${JSON.stringify(req.headers, null, 2)}</p>
+    <p>服务器时间: ${new Date().toLocaleString()}</p>
+  `;
 
-const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '3035556390',
-    database: 'myobject'
+    // 发送响应并结束
+    res.end(responseContent);
 });
 
-// 登录接口（POST请求）
-app.post('/api/login', (req, res) => {
-    const { username, password } = req.body;
+// 配置服务器端口和主机
+const PORT = 8081;
+// 使用 0.0.0.0 可以让服务器监听所有网络接口，包括手机热点分配的 IP
+const HOST = '0.0.0.0';
 
-    // 参数验证
-    if (!username || !password) {
-        return res.status(400).json({
-            success: false,
-            message: '请输入用户名和密码'
-        });
+// 启动服务器
+server.listen(PORT, HOST, () => {
+    console.log(`服务器已启动，正在监听 ${HOST}:${PORT}`);
+    console.log(`本地访问: http://127.0.0.1:${PORT}`);
+    console.log(`局域网访问: http://你的热点内网IP:${PORT}`);
+});
+
+// 处理错误
+server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error(`端口 ${PORT} 已被占用，请关闭占用该端口的程序后重试`);
+    } else {
+        console.error('服务器错误:', err);
     }
-
-    // 查询数据库验证用户
-    const query = 'SELECT id, username, password FROM login WHERE username = ? AND password = ?';
-    db.execute(query, [username, password], (err, results) => {
-        if (err) {
-            console.error('数据库查询错误:', err);
-            return res.status(500).json({
-                success: false,
-                message: '服务器内部错误'
-            });
-        }
-
-        if (results.length > 0) {
-            const user = results[0];
-            // 生成 token（实际项目中应使用 jwt 等库）
-            const token = 'fake-token-' + user.id;
-
-            res.json({
-                success: true,
-                message: '登录成功',
-                data: {
-                    token: token,
-                    userInfo: {
-                        id: user.id,
-                        username: user.username
-                    }
-                }
-            });
-        } else {
-            res.status(401).json({
-                success: false,
-                message: '用户名或密码错误'
-            });
-        }
-    });
-});
-
-// 启动服务器，监听3000端口
-const port = 3000;
-app.listen(port, () => {
-    console.log(`服务器运行在 http://localhost:${port}`);
 });

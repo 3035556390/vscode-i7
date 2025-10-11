@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视力测试</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .shaking {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-10px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(10px);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .test-letter {
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .test-letter:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <!-- 初始页面：视力测试 -->
+    <div id="initial-page" class="text-center max-w-2xl">
+        <h1 class="text-3xl font-bold mb-6 text-gray-800">视力测试</h1>
+        <p class="text-gray-600 mb-8">请点击你看到的字母方向（上/下/左/右）</p>
+
+        <div class="bg-white p-8 rounded-xl shadow-lg mb-8">
+            <div class="test-letter text-5xl md:text-7xl font-bold text-gray-800 mb-6" data-answer="up">
+                ↑
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <button class="answer-btn py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-100"
+                    data-direction="up">上</button>
+                <button class="answer-btn py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-100"
+                    data-direction="down">下</button>
+                <button class="answer-btn py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-100"
+                    data-direction="left">左</button>
+                <button class="answer-btn py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-100"
+                    data-direction="right">右</button>
+            </div>
+        </div>
+
+        <p class="text-sm text-gray-500">提示：请集中注意力，认真完成测试</p>
+    </div>
+
+    <!-- 惊吓页面 -->
+    <div id="prank-page" class="hidden fixed inset-0 z-50 bg-black flex items-center justify-center">
+        <img src="picture/gui.jpg" alt="惊吓图片" class="max-w-full max-h-full object-contain fade-in">
+        <audio id="scream-sound" preload="auto">
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-woman-screaming-1309.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        // 获取元素
+        const initialPage = document.getElementById('initial-page');
+        const prankPage = document.getElementById('prank-page');
+        const answerBtns = document.querySelectorAll('.answer-btn');
+        const screamSound = document.getElementById('scream-sound');
+        const testLetters = document.querySelectorAll('.test-letter');
+
+        // 记录回答次数
+        let answerCount = 0;
+        const requiredAnswers = 2; // 回答几次后触发整人效果
+
+        // 字母方向和答案
+        const directions = ['up', 'down', 'left', 'right'];
+        const directionSymbols = {
+            'up': '↑',
+            'down': '↓',
+            'left': '←',
+            'right': '→'
+        };
+
+        // 处理答案点击
+        answerBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                answerCount++;
+
+                // 检查是否达到触发次数
+                if (answerCount >= requiredAnswers) {
+                    triggerPrank();
+                    return;
+                }
+
+                // 生成下一个字母
+                const randomDir = directions[Math.floor(Math.random() * directions.length)];
+                const testLetter = document.querySelector('.test-letter');
+                testLetter.textContent = directionSymbols[randomDir];
+                testLetter.setAttribute('data-answer', randomDir);
+            });
+        });
+
+        // 触发整人效果
+        function triggerPrank() {
+            // 播放声音
+            screamSound.volume = 0.8;
+            screamSound.play();
+
+            // 显示惊吓页面
+            initialPage.classList.add('hidden');
+            prankPage.classList.remove('hidden');
+
+            // 屏幕抖动效果
+            document.body.classList.add('shaking');
+
+            // 5秒后恢复
+            setTimeout(() => {
+                prankPage.classList.add('hidden');
+                initialPage.classList.remove('hidden');
+                document.body.classList.remove('shaking');
+                answerCount = 0;
+            }, 5000);
+        }
+    </script>
+</body>
+
+</html>

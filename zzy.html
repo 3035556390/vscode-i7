@@ -1,111 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="zzy.css">
-    <!-- <script src="zzy.js"></script> -->
+    <title>本地网页示例</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html,
         body {
-            height: 100%;
-            overflow: hidden;
-            /* 隐藏滚动条 */
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
         }
 
-        .section {
-            height: 100vh;
-            /* 每一屏占满视口高度 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
+        .container {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .section:nth-child(1) {
-            background: #f0f0f0;
+        h1 {
+            color: #2c3e50;
         }
 
-        .section:nth-child(2) {
-            background: #4BBFC3;
+        .info {
+            color: #34495e;
+            margin: 20px 0;
         }
 
-        .section:nth-child(3) {
-            background: #7BAABE;
+        .note {
+            color: #e74c3c;
+            font-weight: bold;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="section">第一屏</div>
-        <div class="section">第二屏</div>
-        <div class="section">第三屏</div>
+        <h1>这是一个本地网页示例</h1>
+        <p class="info">该网页由Node.js服务器读取并通过HTTP返回</p>
+        <p>当前时间: <span id="time"></span></p>
+        <p class="note">可以修改此HTML文件内容，服务器会自动返回更新后的内容</p>
     </div>
 
     <script>
-        const sections = document.querySelectorAll('.section');
-        const container = document.querySelector('.container');
-        let currentIndex = 0;
-        const totalSections = sections.length;
-        let isScrolling = false; // 防止快速连续滚动
-
-        // 监听鼠标滚轮事件
-        window.addEventListener('wheel', handleScroll);
-
-        // 监听键盘上下键
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowDown') nextSection();
-            if (e.key === 'ArrowUp') prevSection();
-        });
-
-        function handleScroll(e) {
-            if (isScrolling) return;
-            isScrolling = true;
-
-            // 滚轮向下滚动（正值）或向上滚动（负值）
-            if (e.deltaY > 0) {
-                nextSection();
-            } else {
-                prevSection();
-            }
-
-            // 延迟后允许再次滚动（防止快速连续滚动）
-            setTimeout(() => { isScrolling = false; }, 800);
+        // 显示当前时间
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('time').textContent = now.toLocaleString();
         }
-
-        function nextSection() {
-            if (currentIndex < totalSections - 1) {
-                currentIndex++;
-                scrollToCurrent();
-            }
-        }
-
-        function prevSection() {
-            if (currentIndex > 0) {
-                currentIndex--;
-                scrollToCurrent();
-            }
-        }
-
-        function scrollToCurrent() {
-            // 计算滚动距离（当前屏的索引 × 视口高度）
-            const scrollTop = currentIndex * window.innerHeight;
-
-            // 平滑滚动到目标位置
-            container.style.transform = `translateY(-${scrollTop}px)`;
-            container.style.transition = 'transform 0.8s ease';
-        }
+        updateTime();
+        setInterval(updateTime, 1000);
     </script>
 </body>
-
 
 </html>
